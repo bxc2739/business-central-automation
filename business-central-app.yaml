@@ -1,0 +1,16 @@
+# Generated via business automation operator install gui.
+apiVersion: app.kiegroup.org/v2
+kind: KieApp
+metadata:
+ name: business-central-app
+spec:
+ environment: rhpam-authoring
+ commonConfig:
+   adminUser: admin
+   adminPassword: r3dh4t1!
+   startupStrategy:
+     strategyName: OpenShiftStartupStrategy
+ objects:
+   console:
+     image: rhpam-businesscentral-rhel8
+     imageTag: 7.12.1
