@@ -4,5 +4,5 @@ metadata:
  name: same-namespace-operator-group
  namespace: business-central-automation
 spec:
- targetNamespaces:
-   - business-central-automation
+  targetNamespaces:
+    - business-central-automation
