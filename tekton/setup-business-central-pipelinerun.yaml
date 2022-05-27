@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: setup-business-central
+spec:
+  pipelineRef:
+    name: setup-business-central
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      metadata:
+        name: tekton-sources-pvc
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  params:
+  - name: resource-repo-url
+    value: https://github.com/ozielsdorff/business-central-automation.git

@@ -1,0 +1,45 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: setup-business-central
+spec:
+  params:
+    - name: resource-repo-url
+      type: string
+  workspaces:
+    - name: shared-data
+## May want to look into allowing user to specify these values via pipeline run...
+  tasks:
+    - name: fetch-manifest-files
+      taskRef:
+        name: git-clone
+        kind: Task
+      workspaces:
+        - name: output
+          workspace: shared-data
+      params:
+        - name: url
+          value: $(params.resource-repo-url)
+    - name: create-project-resources
+      taskRef:
+        name: openshift-client
+        kind: Task
+      workspaces:
+        - name: resource-dir
+          workspace: shared-data
+      runAfter:
+        - fetch-manifest-files
+      params:
+        - name: SCRIPT
+          value: |
+            cd /workspace/resource-dir
+            oc apply -f operator-group.yaml -n business-central-automation
+            oc apply -f businessautomation-sub.yaml -n business-central-automation
+            echo waiting for operator to install...
+            sleep 15
+            oc apply -f business-central-app.yaml -n business-central-automation
+        - name: VERSION
+          value: "4.10"
+          
+
+        
