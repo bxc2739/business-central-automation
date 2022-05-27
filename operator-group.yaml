@@ -2,7 +2,7 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
  name: same-namespace-operator-group
- namespace: rhdm-setup-test
+ namespace: business-central-automation
 spec:
  targetNamespaces:
-   - rhdm-setup-test
+   - business-central-automation
